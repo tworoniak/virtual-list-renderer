@@ -27,3 +27,17 @@ export interface WorkerResponse {
   data: LogEntry[];
   timing: number;
 }
+
+export interface BenchmarkResult {
+  renderTime: number;
+  domNodes: number;
+  scrollFPS: number;
+  memoryMB: number | null;
+}
+
+export interface BenchmarkState {
+  status: 'idle' | 'running-naive' | 'running-virtual' | 'complete';
+  rowCount: number;
+  naive: BenchmarkResult | null;
+  virtual: BenchmarkResult | null;
+}
