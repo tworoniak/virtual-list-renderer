@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useWorkerData } from './hooks/useWorkerData';
 import { useSort } from './hooks/useSort';
 import { VirtualList } from './components/VirtualList';
@@ -6,12 +6,14 @@ import { TableHeader } from './components/TableHeader';
 import { SearchBar } from './components/SearchBar';
 import { StatsBar } from './components/StatsBar';
 import { FPSOverlay } from './components/FPSOverlay';
+import { BenchmarkDrawer } from './components/benchmark/BenchmarkDrawer';
 
 const TOTAL_ROWS = 100_000;
 
 export default function App() {
   const { data, loading, filterTiming, search } = useWorkerData();
   const { sorted, sort, toggle } = useSort(data);
+  const [benchmarkOpen, setBenchmarkOpen] = useState(false);
 
   const handleSearch = useCallback(
     (query: string) => {
@@ -43,6 +45,12 @@ export default function App() {
           <span className='px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-700 text-zinc-400'>
             Web Worker data
           </span>
+          <button
+            onClick={() => setBenchmarkOpen(true)}
+            className='px-3 py-1.5 text-xs font-medium rounded-lg border bg-blue-950 text-blue-300 border-blue-800 hover:bg-blue-900 transition-all cursor-pointer'
+          >
+            Run Benchmark
+          </button>
         </div>
       </header>
 
@@ -76,6 +84,12 @@ export default function App() {
 
       {/* FPS Overlay */}
       <FPSOverlay />
+
+      {/* Benchmark Drawer */}
+      <BenchmarkDrawer
+        open={benchmarkOpen}
+        onClose={() => setBenchmarkOpen(false)}
+      />
     </div>
   );
 }
