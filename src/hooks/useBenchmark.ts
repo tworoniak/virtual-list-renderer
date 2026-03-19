@@ -144,6 +144,9 @@ export function useBenchmark() {
         memoryMB: virtualMemory,
       };
 
+      naiveContainerRef.current.scrollTop = 0;
+      virtualContainerRef.current.scrollTop = 0;
+
       setState((prev) => ({
         ...prev,
         status: 'complete',
